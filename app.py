@@ -15,7 +15,7 @@ DEFINITIONS = {
     'Dalc': ('Workday alcohol consumption', '1 = very low; 5 = very high'),
     'G3': ('Final mathematics grade', '0–20 points; below 10 generally considered failing'),
     'health': ('Current self-reported health status', '1 = very bad; 5 = very good'),
-    'failures': ('Number of past class failures', '0–3; source category 4 means 3 or more failures'),
+    'failures': ('Number of past class failures', '0–3; source category 3 means 3 or more failures'),
     'goout': ('Frequency of going out with friends', '1 = very low; 5 = very high'),
 }
 

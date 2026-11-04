@@ -89,8 +89,19 @@ with st.expander('Preview dataset'):
 
 st.header('3. Academic Performance')
 st.subheader('Average Final Grade by Workday and Weekend Consumption')
-grade_table = pd.DataFrame({'Weekend': a.groupby('Walc')['G3'].mean(), 'Workday': a.groupby('Dalc')['G3'].mean()}).reindex(range(1, 6))
-plot_bar(grade_table, 'Average Final Grade by Alcohol Consumption Level', 'Consumption Level (1 = very low, 5 = very high)', 'Average Final Grade (0–20)', 'Period')
+grade_table = pd.DataFrame({
+    'Weekend': a.groupby('Walc')['G3'].mean(),
+    'Workday': a.groupby('Dalc')['G3'].mean()
+}).reindex(range(1, 6))
+grade_walc_corr = a['Walc'].corr(a['G3'], method='spearman')
+grade_dalc_corr = a['Dalc'].corr(a['G3'], method='spearman')
+plot_bar(
+    grade_table,
+    f'Average Final Grade by Alcohol Consumption Level\n'
+    f'Spearman: [Walc: {grade_walc_corr:.2f}, Dalc: {grade_dalc_corr:.2f}]',
+    'Consumption Level (1 = very low, 5 = very high)',
+    'Average Final Grade (0–20)',
+    'Period')
 st.write(f"Students at the lowest consumption level had average final grades of {grade_table.loc[1, 'Weekend']:.2f} for Walc and {grade_table.loc[1, 'Workday']:.2f} for Dalc. The lowest averages were at Dalc {grade_table['Workday'].idxmin()} ({grade_table['Workday'].min():.2f}) and Walc {grade_table['Weekend'].idxmin()} ({grade_table['Weekend'].min():.2f}). Grades did not consistently drop as alcohol consumption levels increased.")
 st.dataframe(grade_table.round(2).rename_axis('Consumption level'), use_container_width=True)
 

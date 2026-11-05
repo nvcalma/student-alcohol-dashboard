@@ -106,16 +106,23 @@ st.write(f"Students at the lowest consumption level had average final grades of 
 st.dataframe(grade_table.round(2).rename_axis('Consumption level'), use_container_width=True)
 
 st.header('4. Health Analysis')
+
 st.subheader('Weekend Consumption by Health Status')
 health_weekend = pd.crosstab(a['health'], a['Walc']).reindex(index=range(1, 6), columns=range(1, 6), fill_value=0)
-plot_bar(health_weekend, 'Health Status by Weekend Consumption Level', 'Health Status (1 = very bad, 5 = very good)', 'Number of Students', 'Walc Level')
+health_weekend_corr = a['health'].corr(a['Walc'], method='spearman')
+
+plot_bar(health_weekend, f'Health Status by Weekend Consumption Level\nSpearman: {health_weekend_corr:.2f}', 'Health Status (1 = very bad, 5 = very good)', 'Number of Students', 'Walc Level')
+
 st.write('Walc 1 appears across all health ratings, including students who rated their health poorly. Some students at Walc 3–5 also reported very good health. These counts alone do not show a clear link between weekend drinking and health.')
+
 
 st.subheader('Workday Consumption by Health Status')
 health_workday = pd.crosstab(a['health'], a['Dalc']).reindex(index=range(1, 6), columns=range(1, 6), fill_value=0)
-plot_bar(health_workday, 'Health Status by Workday Consumption Level', 'Health Status (1 = very bad, 5 = very good)', 'Number of Students', 'Dalc Level')
-st.write('Dalc 1 is the most common level across all health ratings. Among students with lower health ratings, more reported Dalc 1 than Walc 1. This comparison does not tell us whether drinking affects their health.')
+health_workday_corr = a['health'].corr(a['Dalc'], method='spearman')
 
+plot_bar(health_workday, f'Health Status by Workday Consumption Level\nSpearman: {health_workday_corr:.2f}', 'Health Status (1 = very bad, 5 = very good)', 'Number of Students', 'Dalc Level')
+
+st.write('Dalc 1 is the most common level across all health ratings. Among students with lower health ratings, more reported Dalc 1 than Walc 1. This comparison does not tell us whether drinking affects their health.')
 st.subheader('Health Status and Past Class Failures')
 health_failures_corr = a['health'].corr(a['failures'], method='spearman')
 health_failures = pd.crosstab(a['health'], a['failures'])
